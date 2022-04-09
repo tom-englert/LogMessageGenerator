@@ -1,0 +1,19 @@
+﻿/*
+Assembly: 
+Config: 
+*/
+#nullable enable
+using System;
+using Microsoft.Extensions.Logging;
+
+namespace TODO_LogMessageGenerator
+{
+    public static class LogMessages
+    {
+        private static Action<ILogger, Exception?> EVENT_Message = LoggerMessage.Define(LogLevel.Information, new EventId(1, "EVENT"), "This is the message");
+        public static void Log_EVENT(this ILogger logger, Exception? ex = null)
+        {
+            EVENT_Message(logger, ex);
+        }
+    }
+}

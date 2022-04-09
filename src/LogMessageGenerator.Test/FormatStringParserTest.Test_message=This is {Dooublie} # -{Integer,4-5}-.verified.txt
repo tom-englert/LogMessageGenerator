@@ -1,0 +1,13 @@
+﻿{
+  Message: This is {Dooublie} # "{Integer,4:5}",
+  Parameters: [
+    {
+      Name: Dooublie,
+      Type: double
+    },
+    {
+      Name: Integer,
+      Type: int
+    }
+  ]
+}

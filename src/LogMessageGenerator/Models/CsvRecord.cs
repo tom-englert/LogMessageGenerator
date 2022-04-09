@@ -1,9 +1,7 @@
 ﻿using CsvHelper.Configuration.Attributes;
 
-namespace LogMessageGenerator;
-
-/// <summary>Defines logging severity levels.</summary>
-public enum LogLevel
+// A copy of ... to avoid referencing the whole library just for this enum.
+enum LogLevel
 {
     /// <summary>
     /// Logs that contain the most detailed messages. These messages may contain sensitive application data.
@@ -40,8 +38,7 @@ public enum LogLevel
     None,
 }
 
-
-public class CsvRecord
+class CsvRecord
 {
     [Index(0)]
     public int Id { get; set; }

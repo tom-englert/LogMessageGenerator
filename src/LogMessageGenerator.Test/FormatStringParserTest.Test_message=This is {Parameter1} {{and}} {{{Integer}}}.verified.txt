@@ -1,0 +1,13 @@
+﻿{
+  Message: This is {Parameter1} {{and}} {{{Integer}}},
+  Parameters: [
+    {
+      Name: Parameter1,
+      Type: string
+    },
+    {
+      Name: Integer,
+      Type: int
+    }
+  ]
+}

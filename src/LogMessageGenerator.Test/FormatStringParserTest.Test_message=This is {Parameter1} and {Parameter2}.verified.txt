@@ -1,0 +1,13 @@
+﻿{
+  Message: This is {Parameter1} and {Parameter2},
+  Parameters: [
+    {
+      Name: Parameter1,
+      Type: string
+    },
+    {
+      Name: Parameter2,
+      Type: string
+    }
+  ]
+}

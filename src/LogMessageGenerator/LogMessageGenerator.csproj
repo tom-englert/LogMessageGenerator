@@ -30,7 +30,11 @@
     <None Include="$(PkgMicrosoft_Bcl_AsyncInterfaces)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(PkgMicrosoft_Bcl_Hashcode)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     
-    <None Include="build\$(AssemblyName).props" Pack="true" PackagePath="build" Visible="false" />
+    <None Include="$(AssemblyName).props" Pack="true" PackagePath="build" Visible="false" />
   </ItemGroup>
+
+  <Target Name="ClearPackageCache" AfterTargets="Build">
+    <RemoveDir Directories="..\Integration\Packages\LogMessageGenerator" />
+  </Target>
 
 </Project>
