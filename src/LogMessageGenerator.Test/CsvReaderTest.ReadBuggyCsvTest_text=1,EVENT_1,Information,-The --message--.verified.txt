@@ -1,0 +1,8 @@
+﻿[
+  {
+    Id: Id_1,
+    Event: EVENT_1,
+    LogLevel: Information,
+    Message: The "message
+  }
+]

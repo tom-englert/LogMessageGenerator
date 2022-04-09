@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32210.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogMessageGenerator", "LogMessageGenerator\LogMessageGenerator.csproj", "{9352674E-A089-4FBC-9736-8BAE1DCD90F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogMessageGenerator.Test", "LogMessageGenerator.Test\LogMessageGenerator.Test.csproj", "{8C8568A0-98CC-4026-AFB1-61C1A26234A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9352674E-A089-4FBC-9736-8BAE1DCD90F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9352674E-A089-4FBC-9736-8BAE1DCD90F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9352674E-A089-4FBC-9736-8BAE1DCD90F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9352674E-A089-4FBC-9736-8BAE1DCD90F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C8568A0-98CC-4026-AFB1-61C1A26234A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C8568A0-98CC-4026-AFB1-61C1A26234A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C8568A0-98CC-4026-AFB1-61C1A26234A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C8568A0-98CC-4026-AFB1-61C1A26234A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80C866DE-6CF9-4987-914E-1272E6173E01}
+	EndGlobalSection
+EndGlobal

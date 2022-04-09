@@ -1,0 +1,12 @@
+﻿[
+  {
+    Name: Message,
+    Format: ,
+    Type: string
+  },
+  {
+    Name: 2,
+    Format: ,4:5,
+    Type: int
+  }
+]

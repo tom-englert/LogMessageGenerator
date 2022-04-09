@@ -1,0 +1,9 @@
+<Project>
+  <ItemGroup>
+    <None Remove="LogMessages.csv" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="Configuration" />
+    <AdditionalFiles Include="LogMessages.csv">
+      <Configuration>$(LogMessageGeneratorConfiguration)</Configuration>
+    </AdditionalFiles>
+  </ItemGroup>
+</Project>
