@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization.Json;
-using System.Text;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 
 static class CodeGenerator
 {
@@ -9,48 +7,46 @@ static class CodeGenerator
         var namespaceName = configuration.Namespace ?? compilation?.Assembly.Name ?? "LogMessageGenerator";
         var className = configuration.ClassName ?? "LogMessages";
 
-        var sourceText = new StringBuilder();
+        var source = new CodeBuilder();
 
-        sourceText.AppendLine("/*");
-        sourceText.AppendLine("Configuration:");
-        sourceText.AppendLine($"  Namespace: '{configuration.Namespace}' => '{namespaceName}'");
-        sourceText.AppendLine($"  Classname: '{configuration.ClassName}' => '{className}'");
-        sourceText.AppendLine("*/");
+        source
+            .Add("/*")
+            .Add("Configuration:")
+            .Add($"  Namespace: '{configuration.Namespace}' => '{namespaceName}'")
+            .Add($"  Classname: '{configuration.ClassName}' => '{className}'")
+            .Add("*/");
 
-        sourceText.AppendLine(@"#nullable enable");
-        sourceText.AppendLine(@"using System;");
-        sourceText.AppendLine(@"using Microsoft.Extensions.Logging;");
-        sourceText.AppendLine();
+        source
+            .Add(@"#nullable enable")
+            .Add(@"using System;")
+            .Add(@"using Microsoft.Extensions.Logging;")
+            .Add("");
 
-        sourceText.AppendLine($"namespace {namespaceName}");
-        sourceText.AppendLine(@"{");
-        sourceText.AppendLine($"    public static class {className}");
-        sourceText.AppendLine(@"    {");
-
-        foreach (var line in lines)
+        using (source.AddBlock("namespace {0}", namespaceName))
         {
-            var message = line.Message;
+            using (source.AddBlock($"public static class {className}"))
+            {
+                foreach (var line in lines)
+                {
+                    var message = line.Message;
 
-            var parameters = FormatStringParser.GetFormatParameters(ref message);
-            message = message.Replace("\"", "\\\"");
+                    var parameters = FormatStringParser.GetFormatParameters(ref message);
+                    var paramTypes = string.Join(", ", parameters.Select(item => item.Type));
+                    var paramNames = string.Join(", ", parameters.Select(item => item.Name));
+                    var paramDefinitions = string.Join(", ", parameters.Select(item => item.Type + " " + item.Name));
 
-            var paramTypes = string.Join(", ", parameters.Select(item => item.Type));
-            var paramNames = string.Join(", ", parameters.Select(item => item.Name));
-            var paramDefinitions = string.Join(", ", parameters.Select(item => item.Type + " " + item.Name));
+                    source
+                        .Add($"private static Action<ILogger, {Decorate(paramTypes, ", ")}Exception?> {line.Event}_Message = LoggerMessage.Define{Decorate(paramTypes, "<", ">")}(LogLevel.{line.LogLevel}, new EventId({line.Id}, \"{line.Event}\"), \"{message.Replace("\"", "\\\"")}\");");
 
-            sourceText.AppendLine(
-                $"        private static Action<ILogger, {Decorate(paramTypes, ", ")}Exception?> {line.Event}_Message = LoggerMessage.Define{Decorate(paramTypes, "<", ">")}(LogLevel.{line.LogLevel}, new EventId({line.Id}, \"{line.Event}\"), \"{message}\");");
-            sourceText.AppendLine(
-                $"        public static void Log_{line.Event}(this ILogger logger, {Decorate(paramDefinitions, ", ")}Exception? ex = null)");
-            sourceText.AppendLine(@"        {");
-            sourceText.AppendLine($"            {line.Event}_Message(logger, {Decorate(paramNames, ", ")}ex);");
-            sourceText.AppendLine(@"        }");
+                    using (source.AddBlock($"public static void Log_{line.Event}(this ILogger logger, {Decorate(paramDefinitions, ", ")}Exception? ex = null)"))
+                    {
+                        source.Add($"{line.Event}_Message(logger, {Decorate(paramNames, ", ")}ex);");
+                    }
+                }
+            }
         }
 
-        sourceText.AppendLine(@"    }");
-        sourceText.AppendLine(@"}");
-
-        return sourceText.ToString();
+        return source.ToString();
     }
 
     static string Decorate(string value, string prefix, string suffix)
