@@ -7,8 +7,6 @@ public class LogMessageSourceGenerator : ISourceGenerator
 {
     public void Execute(GeneratorExecutionContext context)
     {
-        File.AppendAllText(@"c:\temp\test.log", $"{DateTime.Now}: Execute called");
-
         var cancellationToken = context.CancellationToken;
 
         var sourceFile = context.AdditionalFiles
@@ -24,12 +22,14 @@ public class LogMessageSourceGenerator : ISourceGenerator
         {
             var logMessages = reader.ReadLogMessages(source, cancellationToken);
 
-            context.AnalyzerConfigOptions.GetOptions(sourceFile)
-                .TryGetValue("build_metadata.additionalfiles.Configuration", out var config);
+            var configuration = Configuration.Read(context.AnalyzerConfigOptions.GetOptions(sourceFile));
 
-            var generatedSource = CodeGenerator.GenerateSource(logMessages, config, context.Compilation);
+            var generatedSource = CodeGenerator.GenerateSource(logMessages, configuration, context.Compilation);
 
-            File.WriteAllText(@"c:\temp\generated.cs", generatedSource);
+            if (!string.IsNullOrEmpty(configuration.DebugOutput))
+            {
+                File.WriteAllText(configuration.DebugOutput, generatedSource);
+            }
 
             context.AddSource("LogMessages.g.cs", SourceText.From(generatedSource, Encoding.UTF8));
         }

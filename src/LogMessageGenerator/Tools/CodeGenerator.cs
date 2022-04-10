@@ -1,18 +1,20 @@
-﻿using System.Text;
+﻿using System.Runtime.Serialization.Json;
+using System.Text;
 using Microsoft.CodeAnalysis;
 
 static class CodeGenerator
 {
-    public static string GenerateSource(IEnumerable<CsvRecord> lines, string? config = null, Compilation? compilation = null)
+    public static string GenerateSource(IEnumerable<CsvRecord> lines, Configuration configuration, Compilation? compilation = null)
     {
-        var namespaceName = compilation?.Assembly.Name ?? "LogMessageGenerator";
-        var className = "LogMessages";
+        var namespaceName = configuration.Namespace ?? compilation?.Assembly.Name ?? "LogMessageGenerator";
+        var className = configuration.ClassName ?? "LogMessages";
 
         var sourceText = new StringBuilder();
 
         sourceText.AppendLine("/*");
-        sourceText.AppendLine($"Assembly: {compilation?.Assembly.Name}");
-        sourceText.AppendLine($"Config: {config}");
+        sourceText.AppendLine("Configuration:");
+        sourceText.AppendLine($"  Namespace: '{configuration.Namespace}' => '{namespaceName}'");
+        sourceText.AppendLine($"  Classname: '{configuration.ClassName}' => '{className}'");
         sourceText.AppendLine("*/");
 
         sourceText.AppendLine(@"#nullable enable");

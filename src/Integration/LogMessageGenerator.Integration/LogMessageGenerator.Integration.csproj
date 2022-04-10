@@ -5,9 +5,10 @@
     <Nullable>disable</Nullable>
     <LangVersion>8.0</LangVersion>
     <ImplicitUsings>disable</ImplicitUsings>
-    <LogMessageGeneratorConfiguration>
-      <Value1>Test1a</Value1>
-      <Value2>Test2a</Value2>
+    <LogMessageGeneratorConfiguration Condition="False">
+      <Namespace>MySpecialNamespace</Namespace>
+      <ClassName>MySpecialClassname</ClassName>
+      <DebugOutput>c:\temp\generated.cs</DebugOutput>
     </LogMessageGeneratorConfiguration>
   </PropertyGroup>
 

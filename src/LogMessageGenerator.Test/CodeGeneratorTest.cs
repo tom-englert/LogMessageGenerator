@@ -9,7 +9,7 @@ public class CodeGeneratorTest
             new() { Id = 1, Event = "EVENT", LogLevel = LogLevel.Information, Message = "This is the message" }
         };
 
-        var sourceCode = CodeGenerator.GenerateSource(records);
+        var sourceCode = CodeGenerator.GenerateSource(records, Configuration.Default);
 
         await Verify(sourceCode);
     }

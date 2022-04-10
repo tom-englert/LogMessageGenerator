@@ -1,6 +1,7 @@
 ﻿/*
-Assembly: 
-Config: 
+Configuration:
+  Namespace: '' => 'LogMessageGenerator'
+  Classname: '' => 'LogMessages'
 */
 #nullable enable
 using System;
