@@ -5,7 +5,7 @@ static class CodeGenerator
 {
     public static string GenerateSource(IEnumerable<CsvRecord> lines, string? config = null, Compilation? compilation = null)
     {
-        var namespaceName = "TODO_LogMessageGenerator";
+        var namespaceName = compilation?.Assembly.Name ?? "LogMessageGenerator";
         var className = "LogMessages";
 
         var sourceText = new StringBuilder();
@@ -30,6 +30,8 @@ static class CodeGenerator
             var message = line.Message;
 
             var parameters = FormatStringParser.GetFormatParameters(ref message);
+            message = message.Replace("\"", "\\\"");
+
             var paramTypes = string.Join(", ", parameters.Select(item => item.Type));
             var paramNames = string.Join(", ", parameters.Select(item => item.Name));
             var paramDefinitions = string.Join(", ", parameters.Select(item => item.Type + " " + item.Name));

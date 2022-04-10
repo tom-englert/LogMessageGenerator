@@ -1,0 +1,4 @@
+﻿{"@t":"$TimeStamp","@mt":"some text","EventId":{"Id":1,"Name":"EVENT_1"},"SourceContext":"UnitTestLogger"}
+{"@t":"$TimeStamp","@mt":"some text {TextParameter}","@l":"Error","TextParameter":"TextParam","EventId":{"Id":2,"Name":"EVENT_2"},"SourceContext":"UnitTestLogger"}
+{"@t":"$TimeStamp","@mt":"some text {Integer}","@l":"Warning","Integer":42,"EventId":{"Id":3,"Name":"EVENT_3"},"SourceContext":"UnitTestLogger"}
+{"@t":"$TimeStamp","@mt":"some text \"{Double}\"","Double":12.3,"EventId":{"Id":4,"Name":"EVENT_4"},"SourceContext":"UnitTestLogger"}
