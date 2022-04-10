@@ -20,7 +20,10 @@ static class CodeGenerator
             .Add(@"#nullable enable")
             .Add(@"using System;")
             .Add(@"using Microsoft.Extensions.Logging;")
-            .Add("");
+            .Add();
+
+        var eventIds = new HashSet<int>();
+        var eventNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         using (source.AddBlock("namespace {0}", namespaceName))
         {
@@ -28,6 +31,11 @@ static class CodeGenerator
             {
                 foreach (var line in lines)
                 {
+                    if (!eventIds.Add(line.Id))
+                        throw new InvalidOperationException($"Duplicate event id '{line.Id}'");
+                    if (!eventNames.Add(line.Event))
+                        throw new InvalidOperationException($"Duplicate event name '{line.Event}'");
+
                     var message = line.Message;
 
                     var parameters = FormatStringParser.GetFormatParameters(ref message);

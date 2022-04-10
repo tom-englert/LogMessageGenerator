@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis.Text;
 [Generator]
 public class LogMessageSourceGenerator : ISourceGenerator
 {
+    private static readonly DiagnosticDescriptor ExceptionDescriptor = new("LOGG", "LogMessageGenerator", "Exception {0}", "SourceGenerator", DiagnosticSeverity.Error, true);
+
     public void Execute(GeneratorExecutionContext context)
     {
         var cancellationToken = context.CancellationToken;
@@ -35,8 +37,10 @@ public class LogMessageSourceGenerator : ISourceGenerator
         }
         catch (Exception ex)
         {
-            var message = ex.GetType() + ": " + ex;
-            context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("LOGG", "LogMessageGenerator", "Exception {0}", "SourceGenerator", DiagnosticSeverity.Error, true), Location.Create(sourceFile.Path,new TextSpan(0, sourceText.Length), new LinePositionSpan(new LinePosition(reader.LineNumber - 1, 0), new LinePosition(reader.LineNumber -1, 0))), message)); }
+            var linePosition = new LinePosition(reader.LineNumber - 1, 0);
+
+            context.ReportDiagnostic(Diagnostic.Create(ExceptionDescriptor, Location.Create(sourceFile.Path, new TextSpan(0, sourceText.Length), new LinePositionSpan(linePosition, linePosition)), ex.Message));
+        }
     }
 
     public void Initialize(GeneratorInitializationContext context)
