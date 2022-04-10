@@ -6,7 +6,7 @@ Config:
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace TODO_LogMessageGenerator
+namespace LogMessageGenerator
 {
     public static class LogMessages
     {
