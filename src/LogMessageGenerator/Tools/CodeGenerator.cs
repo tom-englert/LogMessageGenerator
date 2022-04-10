@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Humanizer;
+using Microsoft.CodeAnalysis;
 
 static class CodeGenerator
 {
@@ -40,13 +41,15 @@ static class CodeGenerator
 
                     var parameters = FormatStringParser.GetFormatParameters(ref message);
                     var paramTypes = string.Join(", ", parameters.Select(item => item.Type));
-                    var paramNames = string.Join(", ", parameters.Select(item => item.Name));
-                    var paramDefinitions = string.Join(", ", parameters.Select(item => item.Type + " " + item.Name));
+                    var paramNames = string.Join(", ", parameters.Select(item => item.Name.Camelize()));
+                    var paramDefinitions = string.Join(", ", parameters.Select(item => item.Type + " " + item.Name.Camelize()));
 
                     source
                         .Add($"private static Action<ILogger, {Decorate(paramTypes, ", ")}Exception?> {line.Event}_Message = LoggerMessage.Define{Decorate(paramTypes, "<", ">")}(LogLevel.{line.LogLevel}, new EventId({line.Id}, \"{line.Event}\"), \"{message.Replace("\"", "\\\"")}\");");
 
-                    using (source.AddBlock($"public static void Log_{line.Event}(this ILogger logger, {Decorate(paramDefinitions, ", ")}Exception? ex = null)"))
+                    var methodName = line.Event.ToLowerInvariant().Pascalize();
+
+                    using (source.AddBlock($"public static void Log{methodName}(this ILogger logger, {Decorate(paramDefinitions, ", ")}Exception? ex = null)"))
                     {
                         source.Add($"{line.Event}_Message(logger, {Decorate(paramNames, ", ")}ex);");
                     }

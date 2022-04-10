@@ -20,10 +20,10 @@ namespace LogMessageGenerator.Integration
             using var context = new Context();
             var logger = context.CreateLogger();
 
-            logger.Log_EVENT_1();
-            logger.Log_EVENT_2("TextParam");
-            logger.Log_EVENT_3(42);
-            logger.Log_EVENT_4(12.3);
+            logger.LogEvent1();
+            logger.LogEvent2("TextParam");
+            logger.LogEvent3(42);
+            logger.LogEvent4(12.3);
 
             await Verifier.Verify(context.GetLogAsync()).ConfigureAwait(false);
         }
