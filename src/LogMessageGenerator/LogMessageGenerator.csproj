@@ -27,23 +27,25 @@
     <PackageReference Include="Nullable.Extended.Analyzer" Version="1.10.4539" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="**" />
-  </ItemGroup>
-
   <ItemDefinitionGroup>
-    <None Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" CopyToOutputDirectory="PreserveNewest" />
+    <PackageContent Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <PackageDependency Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" CopyToOutputDirectory="PreserveNewest" />
   </ItemDefinitionGroup>
 
   <ItemGroup>
-    <None Include="$(OutputPath)\$(AssemblyName).dll" CopyToOutputDirectory="Never" />
-    <None Include="$(AssemblyName).props" PackagePath="build" CopyToOutputDirectory="Never" />
+    <PackageContent Include="$(OutputPath)\$(AssemblyName).dll" />
+    <PackageContent Include="$(AssemblyName).props" PackagePath="build" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(PkgCsvHelper)\lib\netstandard2.0\*.dll" />
-    <None Include="$(PkgMicrosoft_Bcl_AsyncInterfaces)\lib\netstandard2.0\*.dll" />
-    <None Include="$(PkgMicrosoft_Bcl_Hashcode)\lib\netstandard2.0\*.dll" />
+    <PackageDependency Include="$(PkgCsvHelper)\lib\netstandard2.0\*.dll" />
+    <PackageDependency Include="$(PkgMicrosoft_Bcl_AsyncInterfaces)\lib\netstandard2.0\*.dll" />
+    <PackageDependency Include="$(PkgMicrosoft_Bcl_Hashcode)\lib\netstandard2.0\*.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="@(PackageContent)" />
+    <None Include="@(PackageDependency)" />
   </ItemGroup>
 
   <Target Name="ClearPackageCache" AfterTargets="Build">
