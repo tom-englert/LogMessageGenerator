@@ -10,7 +10,7 @@ public class CsvReaderTest
     [InlineData("1,EVENT_1,Warning,\"The \"\"message\"\"\"")]
     public async Task ReadProperCsvTest(string text)
     {
-        var records = _messageReader.ReadLogMessages(text, CancellationToken.None);
+        var records = _messageReader.ReadLogMessages(text);
 
         await Verify(records).UseParameters(text);
     }
@@ -20,7 +20,7 @@ public class CsvReaderTest
     [InlineData("1,EVENT_1,Information,\"The \"\"message\"\"")]
     public async Task ReadBuggyCsvTest(string text)
     {
-        var records = _messageReader.ReadLogMessages(text, CancellationToken.None);
+        var records = _messageReader.ReadLogMessages(text);
 
         await Verify(records).UseParameters(text);
     }
@@ -35,7 +35,7 @@ public class CsvReaderTest
     {
         var ex = Assert.ThrowsAny<Exception>(() =>
         {
-            _ = _messageReader.ReadLogMessages(text, CancellationToken.None).ToList();
+            _ = _messageReader.ReadLogMessages(text).ToList();
         });
 
         Assert.StartsWith("CsvHelper", ex.GetType().Namespace);

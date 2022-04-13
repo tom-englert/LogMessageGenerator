@@ -6,7 +6,7 @@ public class CodeGeneratorTest
     {
         var records = new CsvRecord[]
         {
-            new() { Id = 1, Event = "EVENT", LogLevel = LogLevel.Information, Message = "This is the message" }
+            new() { Id = 1, Event = "EVENT", LogLevel = InternalLogLevel.Information, Message = "This is the message" }
         };
 
         var sourceCode = CodeGenerator.GenerateSource(records, Configuration.Default);
@@ -19,7 +19,7 @@ public class CodeGeneratorTest
     {
         var records = new CsvRecord[]
         {
-            new() { Id = 1, Event = "EVENT_EVENT", LogLevel = LogLevel.Information, Message = "This is the message {Param1}, {Param2@int}" }
+            new() { Id = 1, Event = "EVENT_EVENT", LogLevel = InternalLogLevel.Information, Message = "This is the message {Param1}, {Param2@int}" }
         };
 
         var sourceCode = CodeGenerator.GenerateSource(records, Configuration.Default);

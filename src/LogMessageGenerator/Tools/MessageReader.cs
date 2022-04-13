@@ -7,7 +7,7 @@ class MessageReader
     public int LineNumber { get; private set; }
     public int LineLength { get; private set; }
 
-    public IEnumerable<CsvRecord> ReadLogMessages(string logMessages, CancellationToken cancellationToken)
+    public IEnumerable<CsvRecord> ReadLogMessages(string logMessages)
     {
         var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
         {

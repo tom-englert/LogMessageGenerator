@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration.Attributes;
 
 // A copy of ... to avoid referencing the whole library just for this enum.
-enum LogLevel
+enum InternalLogLevel
 {
     /// <summary>
     /// Logs that contain the most detailed messages. These messages may contain sensitive application data.
@@ -47,7 +47,7 @@ class CsvRecord
     public string Event { get; set; } = null!;
 
     [Index(2)]
-    public LogLevel LogLevel { get; set; }
+    public InternalLogLevel LogLevel { get; set; }
 
     [Index(3)]
     public string Message { get; set; } = null!;

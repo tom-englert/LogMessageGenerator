@@ -15,12 +15,11 @@ public class Configuration
 
     public string? DebugOutput { get; set; }
 
-    public static Configuration Read(AnalyzerConfigOptions configOptions)
+    public static Configuration Read(string? configuration)
     {
         try
         {
-            if (configOptions.TryGetValue("build_metadata.additionalfiles.Configuration", out var configuration) &&
-                !string.IsNullOrEmpty(configuration))
+            if (!string.IsNullOrEmpty(configuration))
             {
                 return Deserialize(configuration);
             }

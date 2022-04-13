@@ -12,9 +12,9 @@ namespace LogMessageGenerator
     public static class LogMessages
     {
         private static Action<ILogger, string, int, Exception?> EVENT_EVENT_Message = LoggerMessage.Define<string, int>(LogLevel.Information, new EventId(1, "EVENT_EVENT"), "This is the message {Param1}, {Param2}");
-        public static void LogEventEvent(this ILogger logger, string param1, int param2, Exception? ex = null)
+        public static void LogEVENT_EVENT(this ILogger logger, string Param1, int Param2, Exception? ex = null)
         {
-            EVENT_EVENT_Message(logger, param1, param2, ex);
+            EVENT_EVENT_Message(logger, Param1, Param2, ex);
         }
     }
 }

@@ -2,9 +2,9 @@
 
 static class CodeGenerator
 {
-    public static string GenerateSource(IEnumerable<CsvRecord> lines, Configuration configuration, Compilation? compilation = null)
+    public static string GenerateSource(IEnumerable<CsvRecord> lines, Configuration configuration, string? assemblyName = null)
     {
-        var namespaceName = configuration.Namespace ?? compilation?.Assembly.Name ?? "LogMessageGenerator";
+        var namespaceName = configuration.Namespace ?? assemblyName ?? "LogMessageGenerator";
         var className = configuration.ClassName ?? "LogMessages";
 
         var source = new CodeBuilder();
@@ -46,7 +46,7 @@ static class CodeGenerator
                     source
                         .Add($"private static Action<ILogger, {Decorate(paramTypes, ", ")}Exception?> {line.Event}_Message = LoggerMessage.Define{Decorate(paramTypes, "<", ">")}(LogLevel.{line.LogLevel}, new EventId({line.Id}, \"{line.Event}\"), \"{message.Replace("\"", "\\\"")}\");");
 
-                    var methodName = line.Event.ToLowerInvariant();
+                    var methodName = line.Event;
 
                     using (source.AddBlock($"public static void Log{methodName}(this ILogger logger, {Decorate(paramDefinitions, ", ")}Exception? ex = null)"))
                     {
