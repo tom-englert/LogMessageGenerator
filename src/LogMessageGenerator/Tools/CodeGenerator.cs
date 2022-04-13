@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 
 static class CodeGenerator
 {
@@ -41,13 +40,13 @@ static class CodeGenerator
 
                     var parameters = FormatStringParser.GetFormatParameters(ref message);
                     var paramTypes = string.Join(", ", parameters.Select(item => item.Type));
-                    var paramNames = string.Join(", ", parameters.Select(item => item.Name.Camelize()));
-                    var paramDefinitions = string.Join(", ", parameters.Select(item => item.Type + " " + item.Name.Camelize()));
+                    var paramNames = string.Join(", ", parameters.Select(item => item.Name));
+                    var paramDefinitions = string.Join(", ", parameters.Select(item => item.Type + " " + item.Name));
 
                     source
                         .Add($"private static Action<ILogger, {Decorate(paramTypes, ", ")}Exception?> {line.Event}_Message = LoggerMessage.Define{Decorate(paramTypes, "<", ">")}(LogLevel.{line.LogLevel}, new EventId({line.Id}, \"{line.Event}\"), \"{message.Replace("\"", "\\\"")}\");");
 
-                    var methodName = line.Event.ToLowerInvariant().Pascalize();
+                    var methodName = line.Event.ToLowerInvariant();
 
                     using (source.AddBlock($"public static void Log{methodName}(this ILogger logger, {Decorate(paramDefinitions, ", ")}Exception? ex = null)"))
                     {
