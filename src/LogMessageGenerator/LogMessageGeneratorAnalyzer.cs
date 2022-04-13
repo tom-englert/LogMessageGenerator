@@ -28,7 +28,7 @@ public class LogMessageSourceGenerator : IIncrementalGenerator
                 return (text.Path, text.GetText()?.ToString(), configuration, compilation.AssemblyName);
             });
 
-        context.RegisterSourceOutput(parameters, GenerateSource);
+        context.RegisterImplementationSourceOutput(parameters, GenerateSource);
     }
 
     private void GenerateSource(SourceProductionContext context, (string Path, string? Text, string? Options, string? assemblyName) args)
