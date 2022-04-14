@@ -7,8 +7,8 @@ using Microsoft.CodeAnalysis.Text;
 public class LogMessageSourceGenerator : IIncrementalGenerator
 {
     private static readonly DiagnosticDescriptor ExceptionDescriptor = new("LOGG", "LogMessageGenerator", "Exception {0}", "SourceGenerator", DiagnosticSeverity.Error, true);
-    private static readonly DiagnosticDescriptor InvokedDescriptor = new("LOGG", "LogMessageGenerator", "Generator invoked: '{0}'", "SourceGenerator", DiagnosticSeverity.Info, true);
-    private static readonly DiagnosticDescriptor SourceGeneratedDescriptor = new("LOGG", "LogMessageGenerator", "Source generated: '{0}'", "SourceGenerator", DiagnosticSeverity.Info, true);
+    private static readonly DiagnosticDescriptor InvokedDescriptor = new("LOGG", "LogMessageGenerator", "Generator invoked: '{0}'", "SourceGenerator", DiagnosticSeverity.Warning, true);
+    private static readonly DiagnosticDescriptor SourceGeneratedDescriptor = new("LOGG", "LogMessageGenerator", "Source generated: '{0}'", "SourceGenerator", DiagnosticSeverity.Warning, true);
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -31,7 +31,7 @@ public class LogMessageSourceGenerator : IIncrementalGenerator
         context.RegisterImplementationSourceOutput(parameters, GenerateSource);
     }
 
-    private void GenerateSource(SourceProductionContext context, (string Path, string? Text, string? Options, string? assemblyName) args)
+    private void GenerateSource(SourceProductionContext context, (string path, string? text, string? options, string? assemblyName) args)
     {
         var (path, text, options, assemblyName) = args;
 
