@@ -7,11 +7,11 @@ using Microsoft.CodeAnalysis.Text;
 public class LogMessageSourceGenerator : IIncrementalGenerator
 {
     private static readonly DiagnosticDescriptor ExceptionDescriptor = new("LOGG", "LogMessageGenerator", "Exception {0}", "SourceGenerator", DiagnosticSeverity.Error, true);
+    private static readonly DiagnosticDescriptor InvokedDescriptor = new("LOGG", "LogMessageGenerator", "Generator invoked: '{0}'", "SourceGenerator", DiagnosticSeverity.Info, true);
+    private static readonly DiagnosticDescriptor SourceGeneratedDescriptor = new("LOGG", "LogMessageGenerator", "Source generated: '{0}'", "SourceGenerator", DiagnosticSeverity.Info, true);
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // File.AppendAllText(@"c:\temp\log.txt", "Initialize\r\n");
-
         var textFiles = context.AdditionalTextsProvider
             .Where(source => source.Path.EndsWith("LogMessages.csv", StringComparison.OrdinalIgnoreCase));
 
@@ -33,9 +33,9 @@ public class LogMessageSourceGenerator : IIncrementalGenerator
 
     private void GenerateSource(SourceProductionContext context, (string Path, string? Text, string? Options, string? assemblyName) args)
     {
-        // File.AppendAllText(@"c:\temp\log.txt", "GenerateSource\r\n");
-
         var (path, text, options, assemblyName) = args;
+
+        context.ReportDiagnostic(Diagnostic.Create(InvokedDescriptor, Location.None, path));
 
         if (text == null)
             return;
@@ -56,6 +56,7 @@ public class LogMessageSourceGenerator : IIncrementalGenerator
             }
 
             context.AddSource("LogMessages.g.cs", SourceText.From(generatedSource, Encoding.UTF8));
+            context.ReportDiagnostic(Diagnostic.Create(SourceGeneratedDescriptor, Location.None, configuration.DebugOutput));
         }
         catch (Exception ex)
         {

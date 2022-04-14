@@ -15,22 +15,20 @@
     <PackageOutputPath>..\nugets</PackageOutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="27.2.1" GeneratePathProperty="true" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.0.0.0" GeneratePathProperty="true" />
-    <PackageReference Include="Microsoft.Bcl.Hashcode" Version="1.0.0.0" GeneratePathProperty="true" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
-    <PackageReference Include="Nullable.Extended.Analyzer" Version="1.10.4539" PrivateAssets="All" />
-  </ItemGroup>
-
   <ItemDefinitionGroup>
+    <PackageReference GeneratePathProperty="true" />
     <PackageContent Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <PackageDependency Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" CopyToOutputDirectory="PreserveNewest" />
   </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="27.2.1" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.0.0.0" />
+    <PackageReference Include="Microsoft.Bcl.Hashcode" Version="1.0.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="All" />
+    <PackageReference Include="Nullable.Extended.Analyzer" Version="1.10.4539" PrivateAssets="All" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageContent Include="$(OutputPath)\$(AssemblyName).dll" />
@@ -48,8 +46,10 @@
     <None Include="@(PackageDependency)" />
   </ItemGroup>
 
-  <Target Name="ClearPackageCache" AfterTargets="Build">
+  <Target Name="ClearIntegrationPackageCache" AfterTargets="Build">
     <RemoveDir Directories="..\Integration\Packages\LogMessageGenerator" />
+    <RemoveDir Directories="..\Integration\LogMessageGenerator.Integration\bin" />
+    <RemoveDir Directories="..\Integration\LogMessageGenerator.Integration\obj" />
   </Target>
 
 </Project>
